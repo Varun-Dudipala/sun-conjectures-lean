@@ -2,9 +2,9 @@
 
 | File | What it is |
 |---|---|
-| `A189286.lean` | Lean 4 proof of `OeisA189286.conjecture_3`: for $n \ge 1$, $8 \mid a(n)$, and $a(n)/8$ is odd exactly when $n$ is a power of 2 |
+| `A189286.lean` | Lean 4 proof of `OeisA189286.conjecture_3`: for $`n \ge 1`$, $`8 \mid a(n)`$, and $`a(n)/8`$ is odd exactly when $`n`$ is a power of 2 |
 | `PROOF_A189286.md` | The same proof in prose |
-| `A208425_3.lean` | Lean 4 proof of `OeisA208425.conjecture_3`: for primes $p \equiv 2 \pmod 3$, $\sum_{k<p} a(k) \equiv 2p/\binom{2(p+1)/3}{(p+1)/3} \pmod{p^2}$ |
+| `A208425_3.lean` | Lean 4 proof of `OeisA208425.conjecture_3`: for primes $`p \equiv 2 \pmod 3`$, $`\sum_{k<p} a(k) \equiv 2p/\binom{2(p+1)/3}{(p+1)/3} \pmod{p^2}`$ |
 | `PROOF_A208425.md` | The same proof in prose |
 | `check_identities.py` | Numeric test of every numbered formula in the two prose proofs |
 
