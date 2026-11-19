@@ -327,7 +327,7 @@ lemma chooseZ_succ (n : ℕ) (k : ℤ) :
     chooseZ (n + 1) k = chooseZ n k + chooseZ n (k - 1) := by
   by_cases hk0 : k < 0
   · unfold chooseZ
-    rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
     ring
   · by_cases hk1 : k = 0
     · subst hk1
@@ -336,7 +336,7 @@ lemma chooseZ_succ (n : ℕ) (k : ℤ) :
     · lift k to ℕ using (by omega)
       obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero (by omega : k ≠ 0)
       unfold chooseZ
-      rw [if_pos (by omega), if_pos (by omega), if_pos (by omega)]
+      rw [ite_eq_left (by omega), ite_eq_left (by omega), ite_eq_left (by omega)]
       have t1 : ((m + 1 : ℕ) : ℤ).toNat = m + 1 := by omega
       have t2 : (((m + 1 : ℕ) : ℤ) - 1).toNat = m := by omega
       rw [t1, t2, Nat.choose_succ_succ]
@@ -361,13 +361,13 @@ lemma seqA_eq_sum_central :
         ∑ j ∈ Finset.range (M + 2), chiZ ((M + 1 : ℤ) - j) * chooseZ (2 * M + 4) j := by
       unfold seqA chooseZ
       refine Finset.sum_congr rfl fun j _ => ?_
-      rw [if_pos (by omega), Int.toNat_natCast, show 2 * (M + 1) + 2 = 2 * M + 4 by omega]
+      rw [ite_eq_left (by omega), Int.toNat_natCast, show 2 * (M + 1) + 2 = 2 * M + 4 by omega]
       push_cast; rfl
     have hA0 : seqA M =
         ∑ j ∈ Finset.range (M + 1), chiZ ((M : ℤ) - j) * chooseZ (2 * M + 2) j := by
       unfold seqA chooseZ
       refine Finset.sum_congr rfl fun j _ => ?_
-      rw [if_pos (by omega), Int.toNat_natCast]
+      rw [ite_eq_left (by omega), Int.toNat_natCast]
     rw [hA1, hA0]
     have hexp : ∀ j ∈ Finset.range (M + 2),
         chiZ ((M + 1 : ℤ) - j) * chooseZ (2 * M + 4) j =
@@ -387,7 +387,7 @@ lemma seqA_eq_sum_central :
         push_cast; rw [sub_self]; decide
       rw [hc0, one_mul]
       unfold chooseZ
-      rw [if_pos (by omega), Int.toNat_natCast, show 2 * M + 2 = 2 * (M + 1) by omega]
+      rw [ite_eq_left (by omega), Int.toNat_natCast, show 2 * M + 2 = 2 * (M + 1) by omega]
     have hs2 : ∑ j ∈ Finset.range (M + 2),
         2 * chiZ ((M + 1 : ℤ) - j) * chooseZ (2 * M + 2) ((j : ℤ) - 1) =
         ∑ j ∈ Finset.range (M + 1), 2 * chiZ ((M : ℤ) - j) * chooseZ (2 * M + 2) j := by
@@ -707,7 +707,7 @@ lemma eq_C_of_derivative_eq_zero {p : ℕ} [hp : Fact p.Prime] {D : (ZMod p)[X]}
   ext i
   rcases eq_or_ne i 0 with rfl | hi0
   · simp
-  · rw [coeff_C, if_neg hi0]
+  · rw [coeff_C, ite_eq_right hi0]
     by_cases hip : p ≤ i
     · exact hdeg i hip
     · obtain ⟨j, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hi0
@@ -779,7 +779,7 @@ lemma coeff_polyQ_zero (p k : ℕ) : (polyQ p k).coeff 0 = 0 := by
   unfold polyQ
   rw [finsetSum_coeff]
   refine Finset.sum_eq_zero fun i _ => ?_
-  rw [coeff_C_mul, coeff_X_pow, if_neg (by omega), mul_zero]
+  rw [coeff_C_mul, coeff_X_pow, ite_eq_right (by omega), mul_zero]
 
 lemma eval_zero_polyQ (p k : ℕ) : (polyQ p k).eval 0 = 0 := by
   rw [← coeff_zero_eq_eval_zero, coeff_polyQ_zero]
@@ -789,7 +789,7 @@ lemma coeff_polyQ_of_ge (p k : ℕ) {i : ℕ} (hi : 2 * k ≤ i) : (polyQ p k).c
   rw [finsetSum_coeff]
   refine Finset.sum_eq_zero fun j hj => ?_
   rw [Finset.mem_range] at hj
-  rw [coeff_C_mul, coeff_X_pow, if_neg (by omega), mul_zero]
+  rw [coeff_C_mul, coeff_X_pow, ite_eq_right (by omega), mul_zero]
 
 lemma derivative_polyQ {p k : ℕ} [hp : Fact p.Prime] (hk1 : 1 ≤ k) (hkp : 2 * k - 1 < p) :
     derivative (polyQ p k) = gPoly p k := by
@@ -802,9 +802,9 @@ lemma derivative_polyQ {p k : ℕ} [hp : Fact p.Prime] (hk1 : 1 ≤ k) (hkp : 2 
         (C ((gPoly p k).coeff i * (((i + 1 : ℕ) : ZMod p))⁻¹) * X ^ (i + 1)).coeff (j + 1)) =
         (gPoly p k).coeff j * (((j + 1 : ℕ) : ZMod p))⁻¹ := by
       rw [Finset.sum_eq_single j]
-      · rw [coeff_C_mul, coeff_X_pow, if_pos rfl, mul_one]
+      · rw [coeff_C_mul, coeff_X_pow, ite_eq_left rfl, mul_one]
       · intro i _ hij
-        rw [coeff_C_mul, coeff_X_pow, if_neg (by omega), mul_zero]
+        rw [coeff_C_mul, coeff_X_pow, ite_eq_right (by omega), mul_zero]
       · intro hnot
         exact absurd (Finset.mem_range.mpr hj) hnot
     rw [hsum]
@@ -820,7 +820,7 @@ lemma derivative_polyQ {p k : ℕ} [hp : Fact p.Prime] (hk1 : 1 ≤ k) (hkp : 2 
         (C ((gPoly p k).coeff i * (((i + 1 : ℕ) : ZMod p))⁻¹) * X ^ (i + 1)).coeff (j + 1)) = 0 := by
       refine Finset.sum_eq_zero fun i hi => ?_
       rw [Finset.mem_range] at hi
-      rw [coeff_C_mul, coeff_X_pow, if_neg (by omega), mul_zero]
+      rw [coeff_C_mul, coeff_X_pow, ite_eq_right (by omega), mul_zero]
     rw [hsum, zero_mul]
     symm
     exact coeff_eq_zero_of_natDegree_lt (lt_of_le_of_lt (natDegree_gPoly_le p k) (by omega))
@@ -1111,10 +1111,10 @@ lemma polyH_eq {p n m r : ℕ} [hp : Fact p.Prime]
       coeff_polyQ_of_ge p r (by omega)
     have hcQ2 : (C 2 * X ^ p * polyQ p r).coeff i = 0 := by
       rw [show C (2 : ZMod p) * X ^ p * polyQ p r = C 2 * (X ^ p * polyQ p r) by ring,
-        coeff_C_mul, coeff_X_pow_mul', if_pos (by omega : p ≤ i),
+        coeff_C_mul, coeff_X_pow_mul', ite_eq_left (by omega : p ≤ i),
         coeff_polyQ_of_ge p r (by omega), mul_zero]
     have hcC : (C qr * X ^ p).coeff i = 0 := by
-      rw [coeff_C_mul, coeff_X_pow, if_neg (by omega : i ≠ p), mul_zero]
+      rw [coeff_C_mul, coeff_X_pow, ite_eq_right (by omega : i ≠ p), mul_zero]
     simp [hcH, hcQ1, hcQ2, hcC]
   have hD_form := eq_C_add_X_pow_of_derivative_eq_zero hdD hdegD
   have hp_pos : 0 < p := hp.out.pos

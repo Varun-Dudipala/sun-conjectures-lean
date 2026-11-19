@@ -323,15 +323,15 @@ lemma step_ineq_non_three {m n k : ℕ} (hm : 2 ≤ m) (hn : 0 < n) (hk : k ≤ 
         Nat.mul_add_mod_self_left, Nat.mod_eq_of_lt (by omega)]
     have hsecond_false : ¬ (m ≤ rn + (2 * n) % m) := by
       rw [h2n_mod, h2rn_eq, hrn_eq]; omega
-    rw [if_pos ⟨q, hq⟩, if_neg hsecond_false]
+    rw [ite_eq_left ⟨q, hq⟩, ite_eq_right hsecond_false]
     have h6 : 2 * m < 6 * (r1 + r2) := by omega
     by_cases hleft : m ≤ 6 * r1
     · have := fStep_ge_one_of_six_mod_ge hm_pos hleft; omega
     · have hright : m ≤ 6 * r2 := by omega
       have := fStep_ge_one_of_six_mod_ge hm_pos hright; omega
-  · rw [if_neg hdvd]
+  · rw [ite_eq_right hdvd]
     by_cases hsec : m ≤ rn + (2 * n) % m
-    · rw [if_pos hsec]
+    · rw [ite_eq_left hsec]
       have h3rn : m ≤ 3 * rn := by
         by_contra hlt
         have e2 : (2 * rn) % m = 2 * rn := Nat.mod_eq_of_lt (by omega)
@@ -341,7 +341,7 @@ lemma step_ineq_non_three {m n k : ℕ} (hm : 2 ≤ m) (hn : 0 < n) (hk : k ≤ 
       · have := fStep_ge_one_of_six_mod_ge hm_pos hleft; omega
       · have hright : m ≤ 6 * r2 := by omega
         have := fStep_ge_one_of_six_mod_ge hm_pos hright; omega
-    · rw [if_neg hsec]; omega
+    · rw [ite_eq_right hsec]; omega
 
 lemma padicValNat_eq_sum_dvd {p a b : ℕ} [hp : Fact p.Prime] (ha : 0 < a) (hb : a < b) :
     padicValNat p a = ∑ i ∈ Finset.Ico 1 b, if p ^ i ∣ a then 1 else 0 := by
@@ -489,7 +489,7 @@ lemma TInt_succ (m : ℤ) :
   by_cases hm : 0 ≤ m
   · lift m to ℕ using hm
     unfold TInt
-    rw [if_pos (by omega), if_pos (by omega)]
+    rw [ite_eq_left (by omega), ite_eq_left (by omega)]
     have h1 : ((m : ℤ) + 1).toNat = m + 1 := by omega
     have h0 : (m : ℤ).toNat = m := by omega
     rw [h1, h0]
@@ -497,7 +497,7 @@ lemma TInt_succ (m : ℤ) :
   · by_cases hm1 : m = -1
     · subst hm1; unfold TInt; norm_num
     · unfold TInt
-      rw [if_neg hm, if_neg (by omega)]
+      rw [ite_eq_right hm, ite_eq_right (by omega)]
       ring
 
 def wzCert (n k : ℤ) : ℤ :=
@@ -541,14 +541,14 @@ lemma sum_TInt_conv {m B : ℕ} (hB : m < B) :
     refine Finset.sum_eq_zero fun k hk => ?_
     rw [Finset.mem_Ico] at hk
     unfold TInt
-    rw [if_neg (show ¬ (0 ≤ (m : ℤ) - k) by omega), mul_zero]
+    rw [ite_eq_right (show ¬ (0 ≤ (m : ℤ) - k) by omega), mul_zero]
   rw [hzero, add_zero]
   unfold numNat
   push_cast
   refine Finset.sum_congr rfl fun k hk => ?_
   rw [Finset.mem_range] at hk
   unfold TInt
-  rw [if_pos (by omega), if_pos (by omega)]
+  rw [ite_eq_left (by omega), ite_eq_left (by omega)]
   have h1 : (k : ℤ).toNat = k := by omega
   have h2 : ((m : ℤ) - k).toNat = m - k := by omega
   rw [h1, h2]
@@ -573,8 +573,8 @@ lemma numNat_recurrence (n : ℕ) :
   have hc0 : wzCert n 0 = 0 := by unfold wzCert; ring
   have hcN : wzCert n ((n : ℤ) + 3) = 0 := by
     unfold wzCert TInt
-    rw [if_neg (show ¬ (0 ≤ (n : ℤ) + 2 - ((n : ℤ) + 3)) by omega),
-      if_neg (show ¬ (0 ≤ (n : ℤ) + 1 - ((n : ℤ) + 3)) by omega)]
+    rw [ite_eq_right (show ¬ (0 ≤ (n : ℤ) + 2 - ((n : ℤ) + 3)) by omega),
+      ite_eq_right (show ¬ (0 ≤ (n : ℤ) + 1 - ((n : ℤ) + 3)) by omega)]
     ring
   rw [hc0, hcN, sub_self] at hsum
   simp only [Finset.sum_add_distrib, Finset.sum_sub_distrib, mul_assoc, ← Finset.mul_sum] at hsum
