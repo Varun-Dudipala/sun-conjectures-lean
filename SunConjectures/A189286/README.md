@@ -1,12 +1,12 @@
 # A conjecture of Zhi-Wei Sun on OEIS A189286
 
 **Status of this document.** This is a prose account of a proof that has been
-checked by the Lean 4 proof assistant (`A189286.lean`, 801 lines, against the
+checked by the Lean 4 proof assistant (`Solution.lean` in this directory, against the
 statement `OeisA189286.conjecture_3` in Google DeepMind's `formal-conjectures`
 library). The Lean file is the proof of record. The prose follows it step by
 step. The proof was found by Gemini 4 Carbon; the prose was written by Claude
 from the Lean file. Every numbered formula below was tested numerically by
-`check_identities.py`. No mathematician has refereed this text.
+`scripts/check_identities.py`. No mathematician has refereed this text.
 
 ## Statement
 
@@ -266,7 +266,7 @@ $`s_2(n) = 1`$ and $`s_2(3n) = 2`$. If $`n = 2^j`$ then $`3n = 2^j + 2^{j+1}`$ a
 both hold. Conversely $`s_2(n) = 1`$ forces $`n`$ to be a power of $`2`$.
 $`\qquad\blacksquare`$
 
-## How the pieces map to the Lean file
+## How the pieces map to `Solution.lean`
 
 | Step | Lean lemma |
 |---|---|

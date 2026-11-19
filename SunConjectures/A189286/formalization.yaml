@@ -1,0 +1,137 @@
+version: "v0.4"
+
+project:
+  name: "OEIS A189286: a(n) is divisible by 8, and a(n)/8 is odd exactly for powers of two (Sun's conjecture)"
+  description: >-
+    For every positive integer n, the normalized convolution a(n) of binomial(6k,3k)*binomial(3k,k)
+    is an integer divisible by 8, and a(n)/8 is odd if and only if n is a power of two.
+    Conjectured by Zhi-Wei Sun (2011). The proof shows that the 2-adic valuation of a(n) is
+    s_2(n) + s_2(3n), where s_2 is the binary digit sum.
+  authors:
+    - "Varun-Dudipala"
+  responsible_maintainers:
+    - "Varun-Dudipala"
+  license: "Apache-2.0"
+
+sources:
+  - title: "Formal proof of OeisA189286.conjecture_3"
+    type: original-proof
+    relationship: other
+    note: >-
+      No earlier proof of this statement was found on OEIS, in the Formal Conjectures
+      repository, or in a web search on 18 November 2026. MathSciNet and zbMATH were not
+      searched.
+  - title: "OEIS A189286"
+    authors:
+      - "Zhi-Wei Sun"
+    id: "https://oeis.org/A189286"
+    type: "web discussion"
+    location: "Comment of 19 April 2011, part (ii)"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: >-
+      States the conjecture proved here.
+  - title: "Formal Conjectures, FormalConjectures/OEIS/189286.lean"
+    authors:
+      - "The Formal Conjectures Authors"
+    id: "https://github.com/google-deepmind/formal-conjectures/blob/6751c0f043985ac6647db28a45a63afdf21acffe/FormalConjectures/OEIS/189286.lean"
+    type: "formalization"
+    relationship: "background"
+    license: "Apache-2.0"
+    author_endorsement: "not-contacted"
+    note: >-
+      Source of the Lean definitions and statement, copied verbatim into Challenge.lean.
+  - title: "OEIS Open: How many conjectures can language models turn into theorems?"
+    authors:
+      - "Tom Adamczewski"
+    id: "arXiv:2608.11941"
+    type: "paper"
+    location: "Appendix A, A189286"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: >-
+      Proves the integrality of a(n) (Sun's first conjecture on this sequence) by termwise
+      divisibility. The package proves that divisibility again and builds on it.
+
+related_formalizations: []
+
+classification:
+  arxiv:
+    - "math.NT"
+    - "math.CO"
+  msc2020:
+    - "11B65"
+    - "11A07"
+    - "05A10"
+
+status:
+  scope: >-
+    The selected theorem is OeisA189286.conjecture_3, for all n >= 1. Sun's conjecture (i) on
+    the growth of a(n)^(1/n) is not treated.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms:
+    - "propext"
+    - "Classical.choice"
+    - "Quot.sound"
+  main_results:
+    - declaration: "OeisA189286.conjecture_3"
+      file: "SunConjectures/A189286/Solution.lean"
+      sorry_count: 0
+      axioms:
+        - "propext"
+        - "Classical.choice"
+        - "Quot.sound"
+      comparator_config: "SunConjectures/A189286/comparator.json"
+
+automation:
+  methods:
+    - method: "autonomous"
+      models:
+        - "gemini-4-carbon"
+      framework: "T3 Code with the Antigravity provider"
+      tool_setup: >-
+        Gemini 4 Carbon found and wrote the Lean proof as an autonomous agent working from
+        a written specification, against the Formal Conjectures statement.
+    - method: "agent"
+      models:
+        - "claude-fable-5-2"
+      framework: "Claude Code"
+      tool_setup: >-
+        Claude checked the proof independently (statement identity, axioms, forbidden
+        constructs, numeric tests), restated it as this standalone package, and wrote the
+        prose account in README.md.
+  spend_usd: "subscription-based"
+  notes: >-
+    AI assistance was total for the proof search and the Lean text. The human maintainer
+    directed the work and reviewed the claims made about it, but did not write or
+    mathematically referee the proof.
+
+fidelity:
+  divergences: >-
+    None known. The definitions and the statement are copied verbatim from the Formal
+    Conjectures file; only its imports, attributes, test lemmas and other conjectures are
+    left out.
+
+review:
+  status: "self-assessed"
+  reviewers: []
+  notes: >-
+    Agent checks only: build with no warnings in Solution.lean, axiom check of the
+    selected theorem, verbatim comparison of the copied definitions and statement with the
+    Formal Conjectures file, and numeric tests of the statement and of every numbered
+    formula in the prose account. No mathematician has refereed the proof.
+
+alignment:
+  namespace: "OeisA189286"
+  statements:
+    - source: >-
+        For any positive integer n, a(n) = 0 (mod 8), and a(n)/8 is odd if and only if n is a
+        power of two.
+      lean: "OeisA189286.conjecture_3"
+      module: "SunConjectures.A189286.Solution"
+      status: "proved"
+
+acknowledgements: >-
+  Mathlib; the Formal Conjectures project for the statement; T. Adamczewski's OEIS Open
+  project, which showed that such statements are within reach of language models.

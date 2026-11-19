@@ -1,0 +1,17 @@
+name = "sunConjectures"
+version = "0.1.0"
+defaultTargets = ["SunConjectures"]
+
+[leanOptions]
+autoImplicit = false
+relaxedAutoImplicit = false
+
+[[lean_lib]]
+name = "SunConjectures"
+srcDir = "."
+globs = ["SunConjectures.+"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "ccbef15ebdb41c2addfac682131f83c75904c3c1"

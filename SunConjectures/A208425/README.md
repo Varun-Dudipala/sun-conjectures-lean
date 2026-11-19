@@ -1,12 +1,12 @@
 # A supercongruence of Zhi-Wei Sun on OEIS A208425
 
 **Status of this document.** This is a prose account of a proof that has been
-checked by the Lean 4 proof assistant (`A208425_3.lean`, 1,374 lines, against
+checked by the Lean 4 proof assistant (`Solution.lean` in this directory, against
 the statement `OeisA208425.conjecture_3` in Google DeepMind's
 `formal-conjectures` library). The Lean file is the proof of record. The prose
 follows it step by step. The proof was found by Gemini 4 Carbon; the prose was
 written by Claude from the Lean file. Every numbered formula below was tested
-numerically by `check_identities.py`. No mathematician has refereed this text.
+numerically by `scripts/check_identities.py`. No mathematician has refereed this text.
 
 ## Statement
 
@@ -338,7 +338,7 @@ proof.
 For $`p = 2`$: $`S = a(0) + a(1) = 2`$ and $`2p/\binom{2}{1} = 2`$, so the
 difference is $`0`$. $`\qquad\blacksquare`$
 
-## How the pieces map to the Lean file
+## How the pieces map to `Solution.lean`
 
 | Step | Lean lemma |
 |---|---|

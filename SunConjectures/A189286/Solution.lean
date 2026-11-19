@@ -1,12 +1,51 @@
-import FormalConjectures.OEIS.«189286»
+/-
+Copyright 2026 The Formal Conjectures Authors.
+Copyright 2026 Varun-Dudipala.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-/
+module
+
+public import Mathlib
 
 /-!
-# Unconditional Proof of `OeisA189286.conjecture_3` (Zhi-Wei Sun, Apr 19 2011)
+# OEIS A189286, Sun's conjecture on divisibility by 8
 
-We prove Zhi-Wei Sun's conjecture on OEIS A189286 (`FormalConjectures/OEIS/189286.lean`):
-for every positive integer $n$, $a(n)$ is an integer multiple of $8$, and $a(n)/8$ is odd
-if and only if $n = 2^k$ for some $k \in \mathbb{N}$.
+For every $n \ge 1$, $a(n)$ is an integer divisible by $8$, and $a(n)/8$ is odd if and only if
+$n$ is a power of two (Zhi-Wei Sun, 2011). The proof shows $v_2(a(n)) = s_2(n) + s_2(3n)$.
+
+Steps: termwise divisibility of the numerator sum by the denominator; a three-term recurrence
+for the numerator sum by telescoping; induction on the $2$-adic valuation. A prose account is
+in `README.md` in this directory.
 -/
+
+@[expose] public section
+
+namespace OeisA189286
+
+/-- The term $\binom{6k}{3k}\binom{3k}{k}$ appearing in the sum. -/
+def tTerm (k : ℕ) : ℚ := ((6 * k).choose (3 * k) * (3 * k).choose k : ℕ)
+
+/--
+The sequence $a(n)$ given by
+$\frac{\sum_{k=0}^n \binom{6k}{3k}\binom{3k}{k}
+  \binom{6(n-k)}{3(n-k)}\binom{3(n-k)}{n-k}}{(2n-1)\binom{3n}{n}}$.
+-/
+def a (n : ℕ) : ℚ :=
+  (∑ k ∈ Finset.range (n + 1), tTerm k * tTerm (n - k)) /
+    (((2 * (n : ℚ)) - 1) * ((3 * n).choose n : ℚ))
+
+end OeisA189286
 
 namespace Solutions.OeisA189286
 
@@ -789,13 +828,14 @@ theorem conjecture_3 (n : ℕ) (hn : 0 < n) :
         decide
       omega
 
--- Compile-time check of exact definitional & syntactic identity with upstream statement:
-example :
-    (∀ (n : ℕ) (_hn : 0 < n),
-      ∃ m : ℤ, _root_.OeisA189286.a n = 8 * m ∧ (Odd m ↔ ∃ k : ℕ, n = 2 ^ k)) =
-    (∀ (n : ℕ) (_hn : 0 < n),
-      ∃ m : ℤ, a n = 8 * m ∧ (Odd m ↔ ∃ k : ℕ, n = 2 ^ k)) := rfl
-
 end Solutions.OeisA189286
 
-#print axioms Solutions.OeisA189286.conjecture_3
+namespace OeisA189286
+
+theorem conjecture_3 (n : ℕ) (hn : 0 < n) :
+    ∃ m : ℤ, a n = 8 * m ∧ (Odd m ↔ ∃ k : ℕ, n = 2 ^ k) :=
+  Solutions.OeisA189286.conjecture_3 n hn
+
+end OeisA189286
+
+end

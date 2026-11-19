@@ -1,0 +1,13 @@
+{
+  "challenge_module": "SunConjectures.A189286.Challenge",
+  "solution_module": "SunConjectures.A189286.Solution",
+  "theorem_names": [
+    "OeisA189286.conjecture_3"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "enable_nanoda": true
+}

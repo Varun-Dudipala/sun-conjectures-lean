@@ -1,0 +1,126 @@
+version: "v0.4"
+
+project:
+  name: "OEIS A208425: Sun's supercongruence for the partial sums modulo p^2, primes p = 2 (mod 3)"
+  description: >-
+    For every prime p congruent to 2 modulo 3, the sum of a(0), ..., a(p-1) is congruent to
+    2p / binomial(2(p+1)/3, (p+1)/3) modulo p^2, where a(n) = sum_k binomial(n,k)
+    binomial(n-k,k) binomial(n+k,k). Conjectured by Zhi-Wei Sun (2016), part 2 of his
+    conjecture (ii) on A208425.
+  authors:
+    - "Varun-Dudipala"
+  responsible_maintainers:
+    - "Varun-Dudipala"
+  license: "Apache-2.0"
+
+sources:
+  - title: "Formal proof of OeisA208425.conjecture_3"
+    type: original-proof
+    relationship: other
+    note: >-
+      No earlier proof of this statement was found on OEIS, in the Formal Conjectures
+      repository, or in a web search on 18 November 2026. MathSciNet and zbMATH were not
+      searched.
+  - title: "OEIS A208425"
+    authors:
+      - "Zhi-Wei Sun"
+    id: "https://oeis.org/A208425"
+    type: "web discussion"
+    location: "Comment of 12 November 2016, conjecture (ii), second part"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+    note: >-
+      States the conjecture proved here.
+  - title: "Formal Conjectures, FormalConjectures/OEIS/208425.lean"
+    authors:
+      - "The Formal Conjectures Authors"
+    id: "https://github.com/google-deepmind/formal-conjectures/blob/6751c0f043985ac6647db28a45a63afdf21acffe/FormalConjectures/OEIS/208425.lean"
+    type: "formalization"
+    relationship: "background"
+    license: "Apache-2.0"
+    author_endorsement: "not-contacted"
+    note: >-
+      Source of the Lean definitions and statement, copied verbatim into Challenge.lean.
+
+related_formalizations: []
+
+classification:
+  arxiv:
+    - "math.NT"
+    - "math.CO"
+  msc2020:
+    - "11A07"
+    - "11B65"
+    - "05A10"
+
+status:
+  scope: >-
+    The selected theorem is OeisA208425.conjecture_3, for all primes p = 2 (mod 3), including
+    p = 2. Sun's conjecture (i) and the case p = 1 (mod 3) of conjecture (ii) are not treated.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms:
+    - "propext"
+    - "Classical.choice"
+    - "Quot.sound"
+  main_results:
+    - declaration: "OeisA208425.conjecture_3"
+      file: "SunConjectures/A208425/Solution.lean"
+      sorry_count: 0
+      axioms:
+        - "propext"
+        - "Classical.choice"
+        - "Quot.sound"
+      comparator_config: "SunConjectures/A208425/comparator.json"
+
+automation:
+  methods:
+    - method: "autonomous"
+      models:
+        - "gemini-4-carbon"
+      framework: "T3 Code with the Antigravity provider"
+      tool_setup: >-
+        Gemini 4 Carbon found and wrote the Lean proof as an autonomous agent working from
+        a written specification, against the Formal Conjectures statement.
+    - method: "agent"
+      models:
+        - "claude-fable-5-2"
+      framework: "Claude Code"
+      tool_setup: >-
+        Claude checked the proof independently (statement identity, axioms, forbidden
+        constructs, numeric tests), restated it as this standalone package, and wrote the
+        prose account in README.md.
+  spend_usd: "subscription-based"
+  notes: >-
+    AI assistance was total for the proof search and the Lean text. The human maintainer
+    directed the work and reviewed the claims made about it, but did not write or
+    mathematically referee the proof.
+
+fidelity:
+  divergences: >-
+    None known. The definition and the statement are copied verbatim from the Formal
+    Conjectures file. The congruence between rationals is expressed there, and here, as
+    divisibility of the numerator of the difference by p^2.
+
+review:
+  status: "self-assessed"
+  reviewers: []
+  notes: >-
+    Agent checks only: build with no warnings in Solution.lean, axiom check of the
+    selected theorem, verbatim comparison of the copied definitions and statement with the
+    Formal Conjectures file, and numeric tests of the statement and of every numbered
+    formula in the prose account. No mathematician has refereed the proof.
+
+alignment:
+  namespace: "OeisA208425"
+  statements:
+    - source: >-
+        For any prime p = 2 (mod 3), sum_{k=0}^{p-1} a(k) = 2p / binomial(2(p+1)/3, (p+1)/3)
+        (mod p^2).
+      lean: "OeisA208425.conjecture_3"
+      module: "SunConjectures.A208425.Solution"
+      status: "proved"
+
+acknowledgements: >-
+  Mathlib; the Formal Conjectures project for the statement; T. Adamczewski's OEIS Open
+  project, which showed that such statements are within reach of language models.
