@@ -8,9 +8,9 @@ project:
     Conjectured by Zhi-Wei Sun (2011). The proof shows that the 2-adic valuation of a(n) is
     s_2(n) + s_2(3n), where s_2 is the binary digit sum.
   authors:
-    - "Varun-Dudipala"
+    - "Varun Dudipala"
   responsible_maintainers:
-    - "Varun-Dudipala"
+    - "Varun Dudipala"
   license: "Apache-2.0"
 
 sources:

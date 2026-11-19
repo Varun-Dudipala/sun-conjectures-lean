@@ -8,9 +8,9 @@ project:
     binomial(n-k,k) binomial(n+k,k). Conjectured by Zhi-Wei Sun (2016), part 2 of his
     conjecture (ii) on A208425.
   authors:
-    - "Varun-Dudipala"
+    - "Varun Dudipala"
   responsible_maintainers:
-    - "Varun-Dudipala"
+    - "Varun Dudipala"
   license: "Apache-2.0"
 
 sources:
